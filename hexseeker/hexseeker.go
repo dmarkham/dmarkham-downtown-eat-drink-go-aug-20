@@ -11,18 +11,18 @@ func NewHexer(rws io.ReadSeeker) *Hexer {
        return &Hexer{rws}
 }
 
-func (h *Hexer) PrintAt(offset, n int64) (string, error){
+func (h *Hexer) FmtAt(offset, n int64) (string){
   _, err :=   h.Seek(offset,0)
   if err != nil{
-    return "", err
+    return ""
   }
   var buf = make([]byte, n)
   _ , err = h.Read(buf)  
   
   if err != nil{
-    return "", err
+    return ""
   }
   st := hex.Dump(buf)
-  return st,nil
+  return st
 }
 
