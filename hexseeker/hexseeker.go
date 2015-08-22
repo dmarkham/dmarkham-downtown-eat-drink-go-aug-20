@@ -24,8 +24,14 @@ func (h *Hexer) FmtAt(offset, n int64) string {
 	}
 
 	st := ""
-	for i := 0; i < int(n/16)+1; i++ {
-		stT := hex.Dump(buf[i*16 : 16])
+	grab := int64(16)
+	p := grab
+	leftover := n % grab
+	for i := int64(0); i < int64(n/grab)+1; i++ {
+		if i*grab+grab > n {
+			p = leftover
+		}
+		stT := hex.Dump(buf[i*grab : p])
 		st = st + stT
 	}
 	return st
